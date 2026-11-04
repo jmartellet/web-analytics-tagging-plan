@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Plano de Tagueamento — Web Analytics</title>
+<style>
+  :root {
+    --bg: #f6f7f9; --surface: #ffffff; --surface-2: #f1f3f6; --text: #18202b; --muted: #5d6878;
+    --line: #dde2e9; --accent: #0f766e; --accent-ink: #ffffff; --accent-soft: #e6f4f2;
+    --error: #b42318; --error-soft: #fdecea; --warn: #9a6700; --warn-soft: #fff6dc; --info: #1d4ed8; --info-soft: #e8efff;
+    --marker: #e8590c; --radius: 10px; --shadow: 0 1px 2px rgba(16,24,40,.06), 0 1px 3px rgba(16,24,40,.08);
+    --mono: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--text); font: 14px/1.5 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  button, input, select, textarea { font: inherit; color: inherit; }
+  header.top { position: sticky; top: 0; z-index: 20; background: var(--surface); border-bottom: 1px solid var(--line); }
+  .top-inner { max-width: 1240px; margin: 0 auto; padding: 10px 16px; display: flex; gap: 12px; align-items: center; flex-wrap: wrap; }
+  .brand { font-weight: 700; font-size: 15px; display: flex; gap: 8px; align-items: center; margin-right: auto; }
+  .brand .dot { width: 10px; height: 10px; border-radius: 50%; background: var(--accent); }
+  .save-state { color: var(--muted); font-size: 12px; }
+  .save-state.bad { color: var(--error); }
+  nav.tabs { max-width: 1240px; margin: 0 auto; padding: 0 16px; display: flex; gap: 4px; overflow-x: auto; }
+  nav.tabs button { border: 0; background: none; padding: 10px 14px; border-bottom: 2px solid transparent; cursor: pointer; color: var(--muted); white-space: nowrap; font-weight: 600; }
+  nav.tabs button[aria-selected="true"] { color: var(--accent); border-bottom-color: var(--accent); }
+  nav.tabs .count { background: var(--surface-2); border-radius: 999px; padding: 0 7px; font-size: 12px; margin-left: 4px; }
+  main { max-width: 1240px; margin: 0 auto; padding: 20px 16px 80px; }
+  section.tab { display: none; } section.tab.active { display: block; }
+  h2 { font-size: 20px; margin: 0 0 4px; } h3 { font-size: 16px; margin: 0 0 8px; }
+  p.lead { color: var(--muted); margin: 0 0 18px; max-width: 760px; }
+  .card { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); padding: 16px; margin-bottom: 16px; }
+  .grid { display: grid; gap: 12px; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+  .grid.two { grid-template-columns: repeat(auto-fill, minmax(360px, 1fr)); }
+  label.f { display: flex; flex-direction: column; gap: 4px; font-size: 12px; font-weight: 600; color: var(--muted); }
+  label.f.wide { grid-column: 1 / -1; }
+  input[type=text], input[type=url], input[type=date], select, textarea { width: 100%; padding: 8px 10px; border: 1px solid var(--line); border-radius: 8px; background: var(--surface); font-size: 14px; font-weight: 400; color: var(--text); }
+  textarea { min-height: 64px; resize: vertical; }
+  input:focus, select:focus, textarea:focus { outline: 2px solid var(--accent); outline-offset: -1px; border-color: transparent; }
+  input.code { font-family: var(--mono); }
+  .checks { display: flex; flex-wrap: wrap; gap: 6px 14px; font-weight: 400; color: var(--text); font-size: 14px; }
+  .checks label { display: flex; gap: 6px; align-items: center; }
+  .btn { border: 1px solid var(--line); background: var(--surface); padding: 7px 12px; border-radius: 8px; cursor: pointer; font-weight: 600; font-size: 13px; display: inline-flex; gap: 6px; align-items: center; }
+  .btn:hover { background: var(--surface-2); }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+  .btn.primary:hover { filter: brightness(1.08); }
+  .btn.danger { color: var(--error); }
+  .btn.small { padding: 4px 8px; font-size: 12px; }
+  .row { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
+  .spacer { flex: 1; }
+  table.params { width: 100%; border-collapse: collapse; font-size: 13px; }
+  table.params th { text-align: left; color: var(--muted); font-weight: 600; font-size: 12px; padding: 6px 4px; border-bottom: 1px solid var(--line); }
+  table.params td { padding: 4px; vertical-align: top; border-bottom: 1px solid var(--surface-2); }
+  table.params td input, table.params td select { padding: 6px 8px; font-size: 13px; }
+  table.params td.c { text-align: center; vertical-align: middle; }
+  .table-wrap { overflow-x: auto; }
+  .table-wrap table { min-width: 860px; }
+  details.event { background: var(--surface); border: 1px solid var(--line); border-radius: var(--radius); box-shadow: var(--shadow); margin-bottom: 12px; }
+  details.event > summary { list-style: none; cursor: pointer; padding: 12px 16px; display: flex; gap: 10px; align-items: center; flex-wrap: wrap; }
+  details.event > summary::-webkit-details-marker { display: none; }
+  details.event[open] > summary { border-bottom: 1px solid var(--line); }
+  .ev-num { background: var(--marker); color: #fff; font-weight: 700; border-radius: 6px; padding: 1px 7px; font-size: 12px; font-family: var(--mono); }
+  .ev-name { font-family: var(--mono); font-weight: 600; }
+  .pill { font-size: 11px; padding: 1px 8px; border-radius: 999px; background: var(--surface-2); color: var(--muted); font-weight: 600; }
+  .pill.err { background: var(--error-soft); color: var(--error); } .pill.warn { background: var(--warn-soft); color: var(--warn); } .pill.ok { background: var(--accent-soft); color: var(--accent); }
+  .ev-body { padding: 16px; display: grid; gap: 16px; }
+  .issues { margin: 0; padding: 0; list-style: none; display: grid; gap: 4px; }
+  .issues li { font-size: 12.5px; padding: 4px 8px; border-radius: 6px; }
+  .issues li.error { background: var(--error-soft); color: var(--error); }
+  .issues li.warning { background: var(--warn-soft); color: var(--warn); }
+  .issues li.info { background: var(--info-soft); color: var(--info); }
+  pre.code { background: #0f172a; color: #e2e8f0; padding: 12px 14px; border-radius: 8px; overflow-x: auto; font: 12.5px/1.55 var(--mono); margin: 0; }
+  .code-head { display: flex; justify-content: space-between; align-items: center; margin-bottom: 6px; }
+  .sub { font-size: 12px; font-weight: 700; color: var(--muted); text-transform: uppercase; letter-spacing: .04em; margin: 0 0 8px; }
+  /* Telas */
+  .screens { display: grid; gap: 16px; grid-template-columns: repeat(auto-fill, minmax(420px, 1fr)); }
+  .shot { position: relative; border: 2px dashed var(--line); border-radius: 8px; background: var(--surface-2); min-height: 200px; display: flex; align-items: center; justify-content: center; text-align: center; color: var(--muted); overflow: hidden; }
+  .shot.has-img { border-style: solid; display: block; min-height: 0; background: #fff; }
+  .shot.drag { border-color: var(--accent); background: var(--accent-soft); }
+  .shot img { display: block; width: 100%; height: auto; }
+  .marker { position: absolute; transform: translate(-50%, -50%); background: var(--marker); color: #fff; font: 700 11px/1 var(--mono); padding: 5px 6px; border-radius: 999px; border: 2px solid #fff; box-shadow: 0 1px 4px rgba(0,0,0,.35); cursor: pointer; white-space: nowrap; }
+  .marker:hover { z-index: 3; transform: translate(-50%, -50%) scale(1.15); }
+  .thumb { max-width: 340px; }
+  .empty { text-align: center; color: var(--muted); padding: 40px 16px; border: 2px dashed var(--line); border-radius: var(--radius); }
+  /* Modal */
+  dialog { border: 0; border-radius: 12px; padding: 0; max-width: min(1100px, 96vw); width: 100%; box-shadow: 0 20px 50px rgba(0,0,0,.3); }
+  dialog::backdrop { background: rgba(15,23,42,.6); }
+  .modal-head { padding: 12px 16px; border-bottom: 1px solid var(--line); display: flex; gap: 8px; align-items: center; }
+  .modal-body { padding: 16px; max-height: 78vh; overflow: auto; }
+  .modal-body .shot { cursor: crosshair; }
+  /* Documento */
+  .doc-toolbar { position: sticky; top: 92px; z-index: 5; background: var(--bg); padding: 8px 0 12px; }
+  .summary-bar { display: flex; gap: 8px; flex-wrap: wrap; margin-bottom: 12px; }
+  .toast { position: fixed; bottom: 20px; left: 50%; transform: translateX(-50%); background: #0f172a; color: #fff; padding: 10px 16px; border-radius: 8px; font-size: 13px; opacity: 0; transition: opacity .2s; pointer-events: none; z-index: 50; }
+  .toast.show { opacity: 1; }
+  @media (max-width: 640px) { .screens { grid-template-columns: 1fr; } .grid.two { grid-template-columns: 1fr; } .doc-toolbar { top: 118px; } }
+  @media print {
+    header.top, .doc-toolbar, .no-print, .toast { display: none !important; }
+    body { background: #fff; } main { padding: 0; max-width: none; }
+    section.tab { display: none !important; } section#tab-doc { display: block !important; }
+  }
+</style>
+<style id="doc-css">
+  .doc { background: #fff; color: #18202b; border: 1px solid #dde2e9; border-radius: 10px; padding: 32px; font: 14px/1.55 system-ui, -apple-system, "Segoe UI", Roboto, sans-serif; }
+  .doc h1 { font-size: 26px; margin: 0 0 4px; } .doc h2 { font-size: 19px; margin: 32px 0 10px; padding-bottom: 6px; border-bottom: 2px solid #0f766e; }
+  .doc h3 { font-size: 16px; margin: 20px 0 8px; }
+  .doc .meta { color: #5d6878; margin-bottom: 18px; }
+  .doc table { width: 100%; border-collapse: collapse; margin: 8px 0 14px; font-size: 13px; }
+  .doc th, .doc td { border: 1px solid #dde2e9; padding: 6px 8px; text-align: left; vertical-align: top; }
+  .doc th { background: #f1f3f6; font-weight: 600; }
+  .doc table.kv th { width: 210px; }
+  .doc code { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; background: #f1f3f6; padding: 1px 5px; border-radius: 4px; font-size: 12.5px; }
+  .doc pre { background: #0f172a; color: #e2e8f0; padding: 12px 14px; border-radius: 8px; overflow-x: auto; font: 12px/1.55 ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; white-space: pre; }
+  .doc .shot-doc { position: relative; border: 1px solid #dde2e9; border-radius: 8px; overflow: hidden; margin: 8px 0 12px; max-width: 820px; }
+  .doc .shot-doc img { display: block; width: 100%; height: auto; }
+  .doc .mk { position: absolute; transform: translate(-50%, -50%); background: #e8590c; color: #fff; font: 700 11px/1 ui-monospace, Menlo, Consolas, monospace; padding: 5px 6px; border-radius: 999px; border: 2px solid #fff; box-shadow: 0 1px 4px rgba(0,0,0,.35); white-space: nowrap; }
+  .doc .tag { display: inline-block; font-size: 11px; padding: 1px 8px; border-radius: 999px; background: #f1f3f6; color: #5d6878; font-weight: 600; margin-right: 4px; }
+  .doc .tag.conv { background: #e6f4f2; color: #0f766e; }
+  .doc .event-block { border: 1px solid #dde2e9; border-radius: 10px; padding: 16px; margin: 14px 0; page-break-inside: avoid; }
+  .doc .note { background: #fff6dc; border-left: 4px solid #9a6700; padding: 8px 12px; border-radius: 4px; margin: 10px 0; }
+  .doc ul.qa { padding-left: 18px; margin: 6px 0; } .doc ul.qa li { margin: 2px 0; }
+  .doc .muted { color: #5d6878; }
+  @media print { .doc { border: 0; padding: 0; } .doc h2 { page-break-after: avoid; } .doc .screen-block { page-break-inside: avoid; } }
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="top-inner">
+    <div class="brand"><span class="dot"></span> Plano de Tagueamento <span class="save-state" id="saveState"></span></div>
+    <button class="btn" id="btnNew" title="Começar um plano em branco">Novo</button>
+    <button class="btn" id="btnExample" title="Carregar um plano de exemplo">Exemplo</button>
+    <label class="btn" title="Abrir um plano .json salvo">Abrir JSON<input type="file" id="fileImport" accept=".json,application/json" hidden></label>
+    <button class="btn primary" id="btnExportJson" title="Baixar o plano para versionar no GitHub">Salvar JSON</button>
+  </div>
+  <nav class="tabs" role="tablist">
+    <button role="tab" data-tab="project" aria-selected="true">1. Projeto</button>
+    <button role="tab" data-tab="screens">2. Telas e prints <span class="count" id="cntScreens">0</span></button>
+    <button role="tab" data-tab="events">3. Eventos <span class="count" id="cntEvents">0</span></button>
+    <button role="tab" data-tab="doc">4. Documento para o dev</button>
+  </nav>
+</header>
+
+<main>
+  <!-- 1. PROJETO -->
+  <section class="tab active" id="tab-project">
+    <h2>Dados da iniciativa</h2>
+    <p class="lead">Contexto que o time de desenvolvimento e de QA precisa para entender o porquê da mensuração. Tudo fica salvo neste navegador; use “Salvar JSON” para versionar no repositório.</p>
+    <div class="card"><div class="grid" id="projectForm"></div></div>
+    <div class="card">
+      <div class="row" style="margin-bottom:8px">
+        <div><h3 style="margin:0">Parâmetros globais</h3><div class="muted" style="color:var(--muted);font-size:13px">Enviados em todos os eventos (ex.: tipo de página, status de login). Não repita-os em cada evento.</div></div>
+        <span class="spacer"></span><button class="btn small" id="btnAddGlobal">+ Parâmetro global</button>
+      </div>
+      <div id="globalParams"></div>
+      <ul class="issues" id="globalIssues" style="margin-top:8px"></ul>
+    </div>
+    <div class="card">
+      <div class="row" style="margin-bottom:8px"><h3 style="margin:0">Histórico de alterações</h3><span class="spacer"></span><button class="btn small" id="btnAddLog">+ Registro</button></div>
+      <div id="changelog"></div>
+    </div>
+  </section>
+
+  <!-- 2. TELAS -->
+  <section class="tab" id="tab-screens">
+    <div class="row" style="align-items:flex-start">
+      <div><h2>Telas e prints</h2>
+      <p class="lead">Adicione uma tela por etapa do fluxo. Cole o print com <kbd>Ctrl</kbd>+<kbd>V</kbd>, arraste a imagem ou clique para escolher o arquivo. Os eventos marcados nesta tela aparecem como pontos numerados.</p></div>
+      <span class="spacer"></span><button class="btn primary" id="btnAddScreen">+ Nova tela</button>
+    </div>
+    <div class="screens" id="screens"></div>
+  </section>
+
+  <!-- 3. EVENTOS -->
+  <section class="tab" id="tab-events">
+    <div class="row" style="align-items:flex-start">
+      <div><h2>Eventos</h2>
+      <p class="lead">Para cada interação que deve ser medida: o que é, quando dispara, onde fica (marque no print) e quais parâmetros envia. As validações seguem a convenção do time e os limites do GA4.</p></div>
+      <span class="spacer"></span>
+      <button class="btn" id="btnCollapse">Recolher todos</button>
+      <button class="btn primary" id="btnAddEvent">+ Novo evento</button>
+    </div>
+    <div id="events"></div>
+  </section>
+
+  <!-- 4. DOCUMENTO -->
+  <section class="tab" id="tab-doc">
+    <div class="doc-toolbar no-print">
+      <div class="summary-bar" id="summaryBar"></div>
+      <div class="row">
+        <button class="btn primary" id="btnPrint">Imprimir / PDF</button>
+        <button class="btn" id="btnExportHtml">Baixar HTML</button>
+        <button class="btn" id="btnExportMd">Baixar Markdown (.zip)</button>
+        <button class="btn" id="btnExportCsv">Baixar CSV</button>
+        <button class="btn" id="btnExportJs">Baixar código (.js)</button>
+      </div>
+    </div>
+    <div id="docView"></div>
+  </section>
+</main>
+
+<dialog id="markerDialog">
+  <div class="modal-head"><strong id="markerTitle">Marcar no print</strong><span class="spacer"></span><button class="btn small" id="btnClearMarker">Remover marcação</button><button class="btn small" id="btnCloseMarker">Fechar</button></div>
+  <div class="modal-body"><p style="margin:0 0 10px;color:var(--muted)">Clique no ponto do print onde a interação acontece.</p><div class="shot has-img" id="markerShot"></div></div>
+</dialog>
+
+<div class="toast" id="toast"></div>
+
+<script src="app/rules.js"></script>
+<script src="app/example.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.10.1/jszip.min.js" defer></script>
+<script src="app/app.js"></script>
+</body>
+</html>

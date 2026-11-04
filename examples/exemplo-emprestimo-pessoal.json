@@ -1,0 +1,241 @@
+{
+  "schemaVersion": "1.0",
+  "project": {
+    "name": "Empréstimo pessoal — simulação e contratação",
+    "code": "EMP-2026-01",
+    "squad": "Squad Crédito PF",
+    "owner": "Ana Souza (Analytics)",
+    "devOwner": "Bruno Lima (Front-end)",
+    "platform": "Web (desktop e mobile)",
+    "domain": "https://www.exemplo.com.br/emprestimo",
+    "method": "dataLayer",
+    "tools": [
+      "Google Tag Manager",
+      "Google Analytics 4"
+    ],
+    "objective": "Entender onde as pessoas abandonam o funil de simulação até a contratação do empréstimo e quais valores/prazos são mais simulados.",
+    "kpis": "Taxa de conversão simulação → contratação; abandono por etapa; ticket médio simulado.",
+    "version": "1.0.0",
+    "status": "Em homologação (QA)",
+    "dueDate": "2026-12-15",
+    "notes": "Não enviar dados pessoais (CPF, nome, e-mail, telefone) em nenhum parâmetro — LGPD."
+  },
+  "globalParams": [
+    {
+      "name": "page_type",
+      "type": "string",
+      "required": true,
+      "example": "emprestimo_simulacao",
+      "source": "Dinâmico - página/DOM",
+      "description": "Tipo/template da página."
+    },
+    {
+      "name": "user_logged",
+      "type": "boolean",
+      "required": true,
+      "example": "true",
+      "source": "Dinâmico - backend/API",
+      "description": "Se a pessoa está autenticada."
+    },
+    {
+      "name": "customer_segment",
+      "type": "string",
+      "required": false,
+      "example": "varejo",
+      "source": "Dinâmico - backend/API",
+      "description": "Segmento do cliente (nunca dados pessoais)."
+    }
+  ],
+  "screens": [
+    {
+      "id": "scr_simulacao",
+      "name": "1. Simulação",
+      "url": "/emprestimo/simular",
+      "description": "Pessoa informa valor e prazo e clica em Simular.",
+      "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MDAiIGhlaWdodD0iNTYwIiB2aWV3Qm94PSIwIDAgODAwIDU2MCI+PHJlY3Qgd2lkdGg9IjgwMCIgaGVpZ2h0PSI1NjAiIGZpbGw9IiNmOGZhZmMiLz48cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjY0IiBmaWxsPSIjMGYxNzJhIi8+PHRleHQgeD0iMzIiIHk9IjQwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiNmZmYiPkJhbmNvIEV4ZW1wbG88L3RleHQ+PHRleHQgeD0iNzY4IiB5PSI0MCIgdGV4dC1hbmNob3I9ImVuZCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE0IiBmaWxsPSIjY2JkNWUxIj4vZW1wcmVzdGltby9zaW11bGFyPC90ZXh0Pjx0ZXh0IHg9IjYwIiB5PSIxMjAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIyOCIgZmlsbD0iIzFmMjkzNyIgZm9udC13ZWlnaHQ9IjcwMCI+U2ltdWxlIHNldSBlbXByw6lzdGltbzwvdGV4dD48dGV4dCB4PSI2MCIgeT0iMTc1IiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM0NzU1NjkiIGZvbnQtd2VpZ2h0PSI0MDAiPlF1YW50byB2b2PDqiBwcmVjaXNhPzwvdGV4dD48cmVjdCB4PSI2MCIgeT0iMTg1IiB3aWR0aD0iMzIwIiBoZWlnaHQ9IjQ0IiByeD0iOCIgZmlsbD0iI2ZmZiIgc3Ryb2tlPSIjY2JkNWUxIi8+PHRleHQgeD0iNzQiIHk9IjIxMyIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE0IiBmaWxsPSIjOTRhM2I4Ij5SJCAxMC4wMDAsMDA8L3RleHQ+PHRleHQgeD0iNDIwIiB5PSIxNzUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzQ3NTU2OSIgZm9udC13ZWlnaHQ9IjQwMCI+RW0gcXVhbnRhcyBwYXJjZWxhcz88L3RleHQ+PHJlY3QgeD0iNDIwIiB5PSIxODUiIHdpZHRoPSIzMjAiIGhlaWdodD0iNDQiIHJ4PSI4IiBmaWxsPSIjZmZmIiBzdHJva2U9IiNjYmQ1ZTEiLz48dGV4dCB4PSI0MzQiIHk9IjIxMyIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE0IiBmaWxsPSIjOTRhM2I4Ij4yNCBtZXNlczwvdGV4dD48cmVjdCB4PSI2MCIgeT0iMjcwIiB3aWR0aD0iMjIwIiBoZWlnaHQ9IjQ4IiByeD0iMjQiIGZpbGw9IiMwZjc2NmUiLz48dGV4dCB4PSIxNzAiIHk9IjMwMCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE1IiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjZmZmIj5TaW11bGFyPC90ZXh0Pjx0ZXh0IHg9IjMyMCIgeT0iMzAwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTUiIGZpbGw9IiMwZjc2NmUiIGZvbnQtd2VpZ2h0PSI3MDAiPkTDunZpZGFzIGZyZXF1ZW50ZXM8L3RleHQ+PC9zdmc+"
+    },
+    {
+      "id": "scr_resultado",
+      "name": "2. Resultado da simulação",
+      "url": "/emprestimo/resultado",
+      "description": "Exibe as ofertas calculadas. A pessoa escolhe uma oferta para contratar.",
+      "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MDAiIGhlaWdodD0iNTYwIiB2aWV3Qm94PSIwIDAgODAwIDU2MCI+PHJlY3Qgd2lkdGg9IjgwMCIgaGVpZ2h0PSI1NjAiIGZpbGw9IiNmOGZhZmMiLz48cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjY0IiBmaWxsPSIjMGYxNzJhIi8+PHRleHQgeD0iMzIiIHk9IjQwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiNmZmYiPkJhbmNvIEV4ZW1wbG88L3RleHQ+PHRleHQgeD0iNzY4IiB5PSI0MCIgdGV4dC1hbmNob3I9ImVuZCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE0IiBmaWxsPSIjY2JkNWUxIj4vZW1wcmVzdGltby9yZXN1bHRhZG88L3RleHQ+PHRleHQgeD0iNjAiIHk9IjEyMCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjI4IiBmaWxsPSIjMWYyOTM3IiBmb250LXdlaWdodD0iNzAwIj5Fc2NvbGhhIHN1YSBvZmVydGE8L3RleHQ+PHJlY3QgeD0iNjAiIHk9IjE1MCIgd2lkdGg9IjMyMCIgaGVpZ2h0PSIyMzAiIHJ4PSIxMiIgZmlsbD0iI2VjZmVmZiIgc3Ryb2tlPSIjZTJlOGYwIi8+PHRleHQgeD0iODQiIHk9IjE5MCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE4IiBmaWxsPSIjMWYyOTM3IiBmb250LXdlaWdodD0iNzAwIj5PZmVydGEgQTwvdGV4dD48dGV4dCB4PSI4NCIgeT0iMjI1IiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTYiIGZpbGw9IiMxZjI5MzciIGZvbnQtd2VpZ2h0PSI0MDAiPjI0eCBkZSBSJCA1MTIsMzA8L3RleHQ+PHRleHQgeD0iODQiIHk9IjI1NSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE0IiBmaWxsPSIjNDc1NTY5IiBmb250LXdlaWdodD0iNDAwIj5UYXhhIDEsODklIGEubS48L3RleHQ+PHJlY3QgeD0iODQiIHk9IjMwMCIgd2lkdGg9IjI3MCIgaGVpZ2h0PSI0OCIgcng9IjI0IiBmaWxsPSIjMGY3NjZlIi8+PHRleHQgeD0iMjE5IiB5PSIzMzAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNSIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iI2ZmZiI+Q29udHJhdGFyIGVzdGEgb2ZlcnRhPC90ZXh0PjxyZWN0IHg9IjQyMCIgeT0iMTUwIiB3aWR0aD0iMzIwIiBoZWlnaHQ9IjIzMCIgcng9IjEyIiBmaWxsPSIjZjFmNWY5IiBzdHJva2U9IiNlMmU4ZjAiLz48dGV4dCB4PSI0NDQiIHk9IjE5MCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE4IiBmaWxsPSIjMWYyOTM3IiBmb250LXdlaWdodD0iNzAwIj5PZmVydGEgQjwvdGV4dD48dGV4dCB4PSI0NDQiIHk9IjIyNSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE2IiBmaWxsPSIjMWYyOTM3IiBmb250LXdlaWdodD0iNDAwIj4zNnggZGUgUiQgMzg5LDkwPC90ZXh0Pjx0ZXh0IHg9IjQ0NCIgeT0iMjU1IiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTQiIGZpbGw9IiM0NzU1NjkiIGZvbnQtd2VpZ2h0PSI0MDAiPlRheGEgMSw5OSUgYS5tLjwvdGV4dD48cmVjdCB4PSI0NDQiIHk9IjMwMCIgd2lkdGg9IjI3MCIgaGVpZ2h0PSI0OCIgcng9IjI0IiBmaWxsPSIjMGY3NjZlIi8+PHRleHQgeD0iNTc5IiB5PSIzMzAiIHRleHQtYW5jaG9yPSJtaWRkbGUiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNSIgZm9udC13ZWlnaHQ9IjcwMCIgZmlsbD0iI2ZmZiI+Q29udHJhdGFyIGVzdGEgb2ZlcnRhPC90ZXh0Pjx0ZXh0IHg9IjYwIiB5PSI0MzAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNSIgZmlsbD0iIzBmNzY2ZSIgZm9udC13ZWlnaHQ9IjcwMCI+UmVmYXplciBzaW11bGHDp8OjbzwvdGV4dD48L3N2Zz4="
+    },
+    {
+      "id": "scr_sucesso",
+      "name": "3. Contratação concluída",
+      "url": "/emprestimo/sucesso",
+      "description": "Confirmação após assinatura do contrato.",
+      "image": "data:image/svg+xml;base64,PHN2ZyB4bWxucz0iaHR0cDovL3d3dy53My5vcmcvMjAwMC9zdmciIHdpZHRoPSI4MDAiIGhlaWdodD0iNTYwIiB2aWV3Qm94PSIwIDAgODAwIDU2MCI+PHJlY3Qgd2lkdGg9IjgwMCIgaGVpZ2h0PSI1NjAiIGZpbGw9IiNmOGZhZmMiLz48cmVjdCB3aWR0aD0iODAwIiBoZWlnaHQ9IjY0IiBmaWxsPSIjMGYxNzJhIi8+PHRleHQgeD0iMzIiIHk9IjQwIiBmb250LWZhbWlseT0iQXJpYWwiIGZvbnQtc2l6ZT0iMTgiIGZvbnQtd2VpZ2h0PSI3MDAiIGZpbGw9IiNmZmYiPkJhbmNvIEV4ZW1wbG88L3RleHQ+PHRleHQgeD0iNzY4IiB5PSI0MCIgdGV4dC1hbmNob3I9ImVuZCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE0IiBmaWxsPSIjY2JkNWUxIj4vZW1wcmVzdGltby9zdWNlc3NvPC90ZXh0PjxyZWN0IHg9IjIwMCIgeT0iMTEwIiB3aWR0aD0iNDAwIiBoZWlnaHQ9IjMzMCIgcng9IjEyIiBmaWxsPSIjZjBmZGY0IiBzdHJva2U9IiNlMmU4ZjAiLz48dGV4dCB4PSIyNTAiIHk9IjIwMCIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjIyIiBmaWxsPSIjMWYyOTM3IiBmb250LXdlaWdodD0iNzAwIj5Qcm9udG8hIEVtcHLDqXN0aW1vIGNvbnRyYXRhZG88L3RleHQ+PHRleHQgeD0iMjUwIiB5PSIyNDAiIGZvbnQtZmFtaWx5PSJBcmlhbCIgZm9udC1zaXplPSIxNCIgZmlsbD0iIzQ3NTU2OSIgZm9udC13ZWlnaHQ9IjQwMCI+TyB2YWxvciBjYWkgbmEgc3VhIGNvbnRhIGVtIGF0w6kgMSBkaWEgw7p0aWwuPC90ZXh0PjxyZWN0IHg9IjI5MCIgeT0iMzMwIiB3aWR0aD0iMjIwIiBoZWlnaHQ9IjQ4IiByeD0iMjQiIGZpbGw9IiMwZjc2NmUiLz48dGV4dCB4PSI0MDAiIHk9IjM2MCIgdGV4dC1hbmNob3I9Im1pZGRsZSIgZm9udC1mYW1pbHk9IkFyaWFsIiBmb250LXNpemU9IjE1IiBmb250LXdlaWdodD0iNzAwIiBmaWxsPSIjZmZmIj5WZXIgY29tcHJvdmFudGU8L3RleHQ+PC9zdmc+"
+    }
+  ],
+  "events": [
+    {
+      "id": "ev_1",
+      "name": "loan_simulation_start",
+      "status": "Em homologação (QA)",
+      "priority": "Alta",
+      "trigger": "Clique",
+      "businessQuestion": "Quantas pessoas iniciam uma simulação e com quais valores/prazos?",
+      "description": "Dispara ao clicar no botão \"Simular\", somente se o formulário for válido.",
+      "screenId": "scr_simulacao",
+      "marker": {
+        "x": 21,
+        "y": 52.5
+      },
+      "elementText": "Simular",
+      "selector": "[data-analytics=\"btn-simular\"]",
+      "isConversion": false,
+      "params": [
+        {
+          "name": "loan_amount",
+          "type": "number",
+          "required": true,
+          "example": "10000",
+          "source": "Dinâmico - input do usuário",
+          "description": "Valor solicitado, sem máscara."
+        },
+        {
+          "name": "installments",
+          "type": "number",
+          "required": true,
+          "example": "24",
+          "source": "Dinâmico - input do usuário",
+          "description": "Quantidade de parcelas."
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "ev_2",
+      "name": "loan_offer_view",
+      "status": "Em homologação (QA)",
+      "priority": "Média",
+      "trigger": "Visualização de elemento",
+      "businessQuestion": "Quantas ofertas são exibidas por simulação?",
+      "description": "Dispara uma vez quando a lista de ofertas termina de carregar.",
+      "screenId": "scr_resultado",
+      "marker": {
+        "x": 50,
+        "y": 24
+      },
+      "elementText": "Escolha sua oferta",
+      "selector": "#lista-ofertas",
+      "isConversion": false,
+      "params": [
+        {
+          "name": "offers_count",
+          "type": "number",
+          "required": true,
+          "example": "2",
+          "source": "Dinâmico - backend/API",
+          "description": "Quantidade de ofertas exibidas."
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "ev_3",
+      "name": "loan_offer_select",
+      "status": "Em homologação (QA)",
+      "priority": "Alta",
+      "trigger": "Clique",
+      "businessQuestion": "Qual oferta (prazo/taxa) as pessoas escolhem?",
+      "description": "Dispara ao clicar em \"Contratar esta oferta\" em qualquer card.",
+      "screenId": "scr_resultado",
+      "marker": {
+        "x": 27.5,
+        "y": 58
+      },
+      "elementText": "Contratar esta oferta",
+      "selector": "[data-analytics=\"btn-contratar-oferta\"]",
+      "isConversion": false,
+      "params": [
+        {
+          "name": "offer_id",
+          "type": "string",
+          "required": true,
+          "example": "oferta_a",
+          "source": "Dinâmico - backend/API",
+          "description": "Identificador da oferta."
+        },
+        {
+          "name": "offer_position",
+          "type": "number",
+          "required": true,
+          "example": "1",
+          "source": "Dinâmico - página/DOM",
+          "description": "Posição do card (1 = primeiro)."
+        },
+        {
+          "name": "installments",
+          "type": "number",
+          "required": true,
+          "example": "24",
+          "source": "Dinâmico - backend/API",
+          "description": "Parcelas da oferta."
+        },
+        {
+          "name": "interest_rate",
+          "type": "number",
+          "required": true,
+          "example": "1.89",
+          "source": "Dinâmico - backend/API",
+          "description": "Taxa mensal, ponto como separador."
+        }
+      ],
+      "notes": ""
+    },
+    {
+      "id": "ev_4",
+      "name": "loan_contract_success",
+      "status": "Em desenvolvimento",
+      "priority": "Alta",
+      "trigger": "Sucesso / conversão",
+      "businessQuestion": "Quantas contratações acontecem e de que valor?",
+      "description": "Dispara quando a tela de sucesso é carregada após a confirmação do backend. Não disparar em recarregamento da página.",
+      "screenId": "scr_sucesso",
+      "marker": {
+        "x": 50,
+        "y": 36
+      },
+      "elementText": "Pronto! Empréstimo contratado",
+      "selector": "",
+      "isConversion": true,
+      "params": [
+        {
+          "name": "value",
+          "type": "currency",
+          "required": true,
+          "example": "10000.00",
+          "source": "Dinâmico - backend/API",
+          "description": "Valor contratado."
+        },
+        {
+          "name": "currency",
+          "type": "string",
+          "required": true,
+          "example": "BRL",
+          "source": "Fixo (valor constante)",
+          "description": "Moeda (ISO 4217)."
+        },
+        {
+          "name": "transaction_id",
+          "type": "string",
+          "required": true,
+          "example": "ctr_8f2a91",
+          "source": "Dinâmico - backend/API",
+          "description": "ID interno do contrato (não é dado pessoal)."
+        }
+      ],
+      "notes": "Marcar como evento-chave (conversão) no GA4."
+    }
+  ],
+  "changelog": [
+    {
+      "date": "2026-11-04",
+      "author": "Ana Souza",
+      "change": "Criação do plano."
+    }
+  ]
+}
