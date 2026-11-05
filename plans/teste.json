@@ -1,0 +1,16 @@
+   {
+     "project": {
+       "name": "Teste do robô",
+       "owner": "Juliana",
+       "objective": "Testar a validação automática"
+     },
+     "events": [
+       {
+         "id": "ev_1",
+         "name": "Clique Botao",
+         "description": "Teste",
+         "businessQuestion": "Teste",
+         "params": []
+       }
+     ]
+   }
