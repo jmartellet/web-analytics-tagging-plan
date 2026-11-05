@@ -7,7 +7,7 @@
      "events": [
        {
          "id": "ev_1",
-         "name": "Clique Botao",
+         "name": "clique_botao",
          "description": "Teste",
          "businessQuestion": "Teste",
          "params": []
